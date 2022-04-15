@@ -3,6 +3,11 @@ package converter;
 import converter.exceptions.MalformedNumberException;
 import converter.exceptions.ValueOutOfBoundsException;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * This class implements a converter that takes a string that represents a number in either the
  * Elbonian or Arabic numeral form. This class has methods that will return a value in the chosen form.
@@ -10,6 +15,17 @@ import converter.exceptions.ValueOutOfBoundsException;
  * @version 3/18/17
  */
 public class ElbonianArabicConverter {
+    private final int n = 3000;
+    private final int m = 1000;
+    private final int d = 300;
+    private final int c = 100;
+    private final int l = 30;
+    private final int x = 10;
+    private final int v = 3;
+    private final int i = 1;
+    private final int z = 0;
+    private Map<Character, Integer> letterDictionary = new HashMap<Character, Integer>();
+    private final Character[] possibleChars = {'N', 'M', 'D', 'C', 'L', 'X', 'V', 'I', 'Z'};
 
     // A string that holds the number (Elbonian or Arabic) you would like to convert
     private final String number;
@@ -29,7 +45,15 @@ public class ElbonianArabicConverter {
 	 * Leading and trailing spaces should not throw an error.
      */
     public ElbonianArabicConverter(String number) throws MalformedNumberException, ValueOutOfBoundsException {
-
+        letterDictionary.put('N', n);
+        letterDictionary.put('M', m);
+        letterDictionary.put('D', d);
+        letterDictionary.put('C', c);
+        letterDictionary.put('L', l);
+        letterDictionary.put('X', x);
+        letterDictionary.put('V', v);
+        letterDictionary.put('I', i);
+        letterDictionary.put('Z', z);
         // TODO check to see if the number is valid, then set it equal to the string
 
         //check if capital
@@ -44,7 +68,11 @@ public class ElbonianArabicConverter {
      */
     public int toArabic() {
         // TODO Fill in the method's body
-        return 1;
+        int totalValue = 0;
+        for(int i = 0; i < this.number.length(); i++){ //go through each char in String number
+            totalValue += letterDictionary.get(this.number.charAt(i));
+        }
+        return totalValue;
     }
 
     /**
