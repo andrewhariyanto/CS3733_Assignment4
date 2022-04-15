@@ -42,45 +42,45 @@ public class ConverterTests {
     }
 
     @Test(expected = ValueOutOfBoundsException.class)
-    public void exactly9999Test() throws MalformedNumberException, ValueOutOfBoundsException{
+    public void exactly9999ArabicTest() throws MalformedNumberException, ValueOutOfBoundsException{
         ElbonianArabicConverter converter = new ElbonianArabicConverter("9999");
     }
 
     @Test(expected = ValueOutOfBoundsException.class)
-    public void lessThanN9999Test() throws MalformedNumberException, ValueOutOfBoundsException{
+    public void lessThanN9999ArabicTest() throws MalformedNumberException, ValueOutOfBoundsException{
         ElbonianArabicConverter converter = new ElbonianArabicConverter("-10000");
     }
 
     @Test(expected = ValueOutOfBoundsException.class)
-    public void exactlyN9999Test() throws MalformedNumberException, ValueOutOfBoundsException{
+    public void exactlyN9999ArabicTest() throws MalformedNumberException, ValueOutOfBoundsException{
         ElbonianArabicConverter converter = new ElbonianArabicConverter("-9999");
     }
 
     @Test(expected = MalformedNumberException.class)
-    public void spaceInMiddleTest() throws MalformedNumberException, ValueOutOfBoundsException{
+    public void spaceInMiddleArabicTest() throws MalformedNumberException, ValueOutOfBoundsException{
         ElbonianArabicConverter converter = new ElbonianArabicConverter("9 9");
     }
 
     @Test(expected = MalformedNumberException.class)
-    public void spaceInMiddleWithTrailingTest() throws MalformedNumberException, ValueOutOfBoundsException{
+    public void spaceInMiddleArabicWithTrailingTest() throws MalformedNumberException, ValueOutOfBoundsException{
         ElbonianArabicConverter converter = new ElbonianArabicConverter("9 9  ");
     }
 
     @Test(expected = MalformedNumberException.class)
-    public void spaceInMiddleWithLeadingTest() throws MalformedNumberException, ValueOutOfBoundsException{
+    public void spaceInMiddleArabicWithLeadingTest() throws MalformedNumberException, ValueOutOfBoundsException{
         ElbonianArabicConverter converter = new ElbonianArabicConverter("  9 9");
     }
 
     @Test
-    public void leadingSpaceTest() throws MalformedNumberException, ValueOutOfBoundsException{
-        ElbonianArabicConverter converter = new ElbonianArabicConverter("  I");
-        assertEquals(converter.toArabic(), 1);
+    public void leadingSpaceArabicTest() throws MalformedNumberException, ValueOutOfBoundsException{
+        ElbonianArabicConverter converter = new ElbonianArabicConverter("  1");
+        assertEquals(converter.toElbonian(), "I");
     }
 
     @Test
-    public void trailingSpaceTest() throws MalformedNumberException, ValueOutOfBoundsException{
-        ElbonianArabicConverter converter = new ElbonianArabicConverter("I  ");
-        assertEquals(converter.toArabic(), 1);
+    public void trailingSpaceArabicTest() throws MalformedNumberException, ValueOutOfBoundsException{
+        ElbonianArabicConverter converter = new ElbonianArabicConverter("1  ");
+        assertEquals(converter.toElbonian(), "I");
     }
 
 }
