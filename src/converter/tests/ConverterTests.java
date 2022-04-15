@@ -6,6 +6,8 @@ import converter.exceptions.ValueOutOfBoundsException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.security.interfaces.ECKey;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -81,6 +83,45 @@ public class ConverterTests {
     public void trailingSpaceArabicTest() throws MalformedNumberException, ValueOutOfBoundsException{
         ElbonianArabicConverter converter = new ElbonianArabicConverter("1  ");
         assertEquals(converter.toElbonian(), "I");
+    }
+
+
+
+
+
+    //toArabic Tests
+    @Test
+    public void zeroElbonianTest() throws MalformedNumberException, ValueOutOfBoundsException{
+        ElbonianArabicConverter converter = new ElbonianArabicConverter("Z");
+        assertEquals(converter.toArabic(), 0);
+    }
+    @Test
+    public void  negativeNumberElbonianTest() throws MalformedNumberException, ValueOutOfBoundsException{
+        ElbonianArabicConverter converter = new ElbonianArabicConverter("-MMCCII");
+        assertEquals(converter.toArabic(), -2202);
+    }
+    @Test
+    public void positiveNumberElbonianTest() throws MalformedNumberException, ValueOutOfBoundsException{
+        ElbonianArabicConverter converter = new ElbonianArabicConverter("MMCCII");
+        assertEquals(converter.toArabic(), 2202);
+    }
+
+
+    //toElbonian tests
+    @Test
+    public void zeroArabicTest() throws MalformedNumberException, ValueOutOfBoundsException{
+        ElbonianArabicConverter converter = new ElbonianArabicConverter("0");
+        assertEquals(converter.toElbonian(), "Z");
+    }
+    @Test
+    public void negativeArabicTest() throws MalformedNumberException, ValueOutOfBoundsException{
+        ElbonianArabicConverter converter = new ElbonianArabicConverter("-2202");
+        assertEquals(converter.toElbonian(), "-MMCCII");
+    }
+    @Test
+    public void positiveArabicTest() throws MalformedNumberException, ValueOutOfBoundsException{
+        ElbonianArabicConverter converter = new ElbonianArabicConverter("2202");
+        assertEquals(converter.toElbonian(), "MMCCII");
     }
 
 }
