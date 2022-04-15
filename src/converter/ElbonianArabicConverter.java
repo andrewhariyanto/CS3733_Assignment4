@@ -31,6 +31,8 @@ public class ElbonianArabicConverter {
     public ElbonianArabicConverter(String number) throws MalformedNumberException, ValueOutOfBoundsException {
 
         // TODO check to see if the number is valid, then set it equal to the string
+
+        //check if capital
         this.number = number;
     }
 
