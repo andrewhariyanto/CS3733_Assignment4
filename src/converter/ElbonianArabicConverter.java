@@ -54,9 +54,94 @@ public class ElbonianArabicConverter {
         letterDictionary.put('V', v);
         letterDictionary.put('I', i);
         letterDictionary.put('Z', z);
-        // TODO check to see if the number is valid, then set it equal to the string
 
-        //check if capital
+        // TODO check to see if the number is valid, then set it equal to the string
+        //Trim
+        number = number.trim();
+        //Check if there is space
+        if(number.contains(" ")){
+            throw new MalformedNumberException("Space in middle");
+        }
+        if(number.contains("-") && number.length() == 1){
+            throw new MalformedNumberException("Invalid string");
+        }
+        //Check if Arabic
+        try{
+            int arabic = Integer.parseInt(number);
+            //Check in bounds
+            if(arabic > 9999 || arabic < -9999){
+                throw new ValueOutOfBoundsException("Arabic value out of bounds");
+            }
+        }catch (NumberFormatException e){
+            //It's Elbonian
+            //For loop stuff
+            int numTwoInARows = 0;
+            int numThreeInARows = 0;
+
+            //Check for two and three in a rows
+            char previous = number.charAt(0);
+            for(int i = 0; i < number.length(); i++){
+                char current = number.charAt(i);
+                if(current == 'M' || current == 'C' || current == 'X' || current == 'I'){
+                    if(previous != current){
+                        numTwoInARows = 0;
+                    }
+                    numTwoInARows++;
+                    numThreeInARows = 0;
+                    previous = current;
+                }
+                else if(current == 'N' || current == 'D' || current == 'L' || current == 'V'){
+                    if(previous != current){
+                        numThreeInARows = 0;
+                    }
+                    numThreeInARows++;
+                    numTwoInARows = 0;
+                    previous = current;
+                    if(numThreeInARows == 3){
+                        switch (current){
+                            case 'N':
+                                if(number.contains("M")){
+                                    throw new MalformedNumberException("Three N contains M");
+                                }
+                                break;
+                            case 'D':
+                                if (number.contains("C")){
+                                    throw new MalformedNumberException("Three D contains C");
+                                }
+                                break;
+                            case 'L':
+                                if(number.contains("X")) {
+                                    throw new MalformedNumberException("Three L contains X");
+                                }
+                            case 'V':
+                                if (number.contains("I")) {
+                                    throw new MalformedNumberException("Three V contains I");
+                                }
+                            default:
+                            }
+                        }
+                    }
+                else if(current == 'Z'){
+                    if(i != 0){
+                        throw new MalformedNumberException("Z is not the only thing");
+                    }
+                }
+                else {
+                    if(i == 0 && number.charAt(i) == '-'){
+                        //okay
+                    }
+                    else{
+                        throw new MalformedNumberException("not a valid character");
+                    }
+                }
+                if(numThreeInARows > 3 || numTwoInARows > 2){
+                    throw new MalformedNumberException("Two and three in a rows do not conform");
+                }
+            }
+
+        }
+
+
         this.number = number;
     }
 
@@ -69,8 +154,15 @@ public class ElbonianArabicConverter {
     public int toArabic() {
         // TODO Fill in the method's body
         int totalValue = 0;
-        for(int i = 0; i < this.number.length(); i++){ //go through each char in String number
-            totalValue += letterDictionary.get(this.number.charAt(i));
+        if(this.number.contains("-")){
+            for(int i = 1; i < this.number.length(); i++){ //go through each char in String number
+                totalValue -= letterDictionary.get(this.number.charAt(i));
+            }
+        }
+        else{
+            for(int i = 0; i < this.number.length(); i++){ //go through each char in String number
+                totalValue += letterDictionary.get(this.number.charAt(i));
+            }
         }
         return totalValue;
     }
@@ -84,61 +176,45 @@ public class ElbonianArabicConverter {
         // TODO Fill in the method's body
         int startingNum = Integer.parseInt(this.number);
         String totalString = "";
-        int modN = startingNum % n;
-        int modM = startingNum % m;
-        int modD = startingNum % d;
-        int modC = startingNum % c;
-        int modL = startingNum % l;
-        int modX = startingNum % x;
-        int modV = startingNum % v;
-        if(modN != 0) {
-            for(int i = 0; i < modN; i++){
-                startingNum -= n;
-                totalString = totalString + "N";
+        if(startingNum < 0){
+            totalString += "-";
+        }
+
+        startingNum = Math.abs(startingNum);
+
+
+        if(startingNum == 0){
+            return "Z";
+        }
+
+        while(startingNum > 0){
+            if(startingNum - 3000 >= 0) {
+                totalString += "N";
+                startingNum -= 3000;
+            } else if(startingNum - 1000 >= 0){
+                totalString += "M";
+                startingNum -= 1000;
+            } else if(startingNum - 300 >= 0){
+                totalString += "D";
+                startingNum -= 300;
+            }else if(startingNum-100 >= 0){
+                totalString += "C";
+                startingNum -= 100;
+            }else if(startingNum - 30 >= 0){
+                totalString += "L";
+                startingNum -= 30;
+            }else if(startingNum - 10 >= 0){
+                totalString += "X";
+                startingNum -= 10;
+            }else if(startingNum - 3 >= 0){
+                totalString += "V";
+                startingNum -= 3;
+            }else if(startingNum - 1 >= 0){
+                totalString += "I";
+                startingNum -= 1;
             }
         }
-        if(modM != 0) {
-            for(int i = 0; i < modM; i++){
-                startingNum -= m;
-                totalString = totalString + "M";
-            }
-        }
-        if(modD != 0) {
-            for(int i = 0; i < modD; i++){
-                startingNum -= d;
-                totalString = totalString + "D";
-            }
-        }
-        if(modC != 0) {
-            for(int i = 0; i < modC; i++){
-                startingNum -= c;
-                totalString = totalString + "C";
-            }
-        }
-        if(modL != 0) {
-            for(int i = 0; i < modL; i++){
-                startingNum -= l;
-                totalString = totalString + "L";
-            }
-        }
-        if(modX != 0) {
-            for(int i = 0; i < modX; i++){
-                startingNum -= x;
-                totalString = totalString + "X";
-            }
-        }
-        if(modV != 0) {
-            for(int i = 0; i < modV; i++){
-                startingNum -= v;
-                totalString = totalString + "V";
-            }
-        }
-        for(int j = 0; j < startingNum; j++){
-            totalString = totalString + "I";
-        }
-        if(startingNum == 0) {
-            totalString = "Z";
-        }
+
         return totalString;
     }
 
