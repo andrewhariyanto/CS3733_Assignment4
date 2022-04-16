@@ -82,7 +82,64 @@ public class ElbonianArabicConverter {
      */
     public String toElbonian() {
         // TODO Fill in the method's body
-        return "I";
+        int startingNum = Integer.parseInt(this.number);
+        String totalString = "";
+        int modN = startingNum % n;
+        int modM = startingNum % m;
+        int modD = startingNum % d;
+        int modC = startingNum % c;
+        int modL = startingNum % l;
+        int modX = startingNum % x;
+        int modV = startingNum % v;
+        if(modN != 0) {
+            for(int i = 0; i < modN; i++){
+                startingNum -= n;
+                totalString = totalString + "N";
+            }
+        }
+        if(modM != 0) {
+            for(int i = 0; i < modM; i++){
+                startingNum -= m;
+                totalString = totalString + "M";
+            }
+        }
+        if(modD != 0) {
+            for(int i = 0; i < modD; i++){
+                startingNum -= d;
+                totalString = totalString + "D";
+            }
+        }
+        if(modC != 0) {
+            for(int i = 0; i < modC; i++){
+                startingNum -= c;
+                totalString = totalString + "C";
+            }
+        }
+        if(modL != 0) {
+            for(int i = 0; i < modL; i++){
+                startingNum -= l;
+                totalString = totalString + "L";
+            }
+        }
+        if(modX != 0) {
+            for(int i = 0; i < modX; i++){
+                startingNum -= x;
+                totalString = totalString + "X";
+            }
+        }
+        if(modV != 0) {
+            for(int i = 0; i < modV; i++){
+                startingNum -= v;
+                totalString = totalString + "V";
+            }
+        }
+        for(int j = 0; j < startingNum; j++){
+            totalString = totalString + "I";
+        }
+        if(startingNum == 0) {
+            totalString = "Z";
+        }
+        return totalString;
     }
 
 }
