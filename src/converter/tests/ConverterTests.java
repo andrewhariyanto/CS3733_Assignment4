@@ -187,10 +187,46 @@ public class ConverterTests {
         assertEquals(converter.toArabic(), 9999);
     }
 
+    @Test(expected = MalformedNumberException.class)
+    public void notInOrder() throws MalformedNumberException, ValueOutOfBoundsException{
+        ElbonianArabicConverter converter = new ElbonianArabicConverter("MDDMN");
+    }
+    @Test(expected = MalformedNumberException.class)
+    public void notElbonianNumbers() throws MalformedNumberException, ValueOutOfBoundsException{
+        ElbonianArabicConverter converter = new ElbonianArabicConverter("13SDSD123");
+    }
+    @Test(expected = MalformedNumberException.class)
+    public void emptyStringTest() throws MalformedNumberException, ValueOutOfBoundsException{
+        ElbonianArabicConverter converter = new ElbonianArabicConverter("");
+    }
+    @Test(expected = MalformedNumberException.class)
+    public void nullStringTest() throws MalformedNumberException, ValueOutOfBoundsException{
+        ElbonianArabicConverter converter = new ElbonianArabicConverter(null);
+    }
+
+    @Test(expected = MalformedNumberException.class)
+    public void otherWithZTest() throws MalformedNumberException, ValueOutOfBoundsException{
+        ElbonianArabicConverter converter = new ElbonianArabicConverter("ZM");
+    }
+    @Test(expected = MalformedNumberException.class)
+    public void negativeZ() throws MalformedNumberException, ValueOutOfBoundsException{
+        ElbonianArabicConverter converter = new ElbonianArabicConverter("-Z");
+    }
 
 
 
 
+
+    @Test
+    public void longestStringSuccessTest() throws MalformedNumberException, ValueOutOfBoundsException{
+        ElbonianArabicConverter converter = new ElbonianArabicConverter("NNMMDDCCLLXXVVII");
+        assertEquals(converter.toArabic(), 8888);
+    }
+    @Test
+    public void longestStringNegativeSuccessTest() throws MalformedNumberException, ValueOutOfBoundsException{
+        ElbonianArabicConverter converter = new ElbonianArabicConverter("-NNMMDDCCLLXXVVII");
+        assertEquals(converter.toArabic(), -8888);
+    }
     //toArabic Tests
     @Test
     public void zeroElbonianTest() throws MalformedNumberException, ValueOutOfBoundsException{

@@ -56,6 +56,9 @@ public class ElbonianArabicConverter {
         letterDictionary.put('Z', z);
 
         // TODO check to see if the number is valid, then set it equal to the string
+        if(number == null){
+            throw new MalformedNumberException("Null string");
+        }
         //Trim
         number = number.trim();
         //Check if there is space
@@ -73,7 +76,19 @@ public class ElbonianArabicConverter {
                 throw new ValueOutOfBoundsException("Arabic value out of bounds");
             }
         }catch (NumberFormatException e){
+            if("".equals(number)){
+                throw new MalformedNumberException("Empty String");
+            }
             //It's Elbonian
+            if(number.contains("Z")){
+                if(!number.matches("Z")){
+                    throw new MalformedNumberException("invalid");
+                }
+            }else{
+                if(!number.matches("-?N*M*D*C*L*X*V*I*")){
+                    throw new MalformedNumberException("invalid");
+                }
+            }
             //For loop stuff
             int numTwoInARows = 0;
             int numThreeInARows = 0;
